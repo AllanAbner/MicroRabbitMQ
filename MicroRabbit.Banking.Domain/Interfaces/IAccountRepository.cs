@@ -1,4 +1,5 @@
 ﻿using MicroRabbit.Banking.Domain.Commands;
+using MicroRabbit.Banking.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
