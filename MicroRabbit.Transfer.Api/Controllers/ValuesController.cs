@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MicroRabbit.Transfer.Application.Interfaces;
+using MicroRabbit.Transfer.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace MicroRabbit.Transfer.Api.Controllers
 {
@@ -10,36 +9,18 @@ namespace MicroRabbit.Transfer.Api.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly ITransferService transferService;
+
+        public ValuesController(ITransferService transferService)
+        {
+            this.transferService = transferService;
+        }
+
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<TransferLog>> Get()
         {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return Ok(transferService.GetTransferLogs());
         }
     }
 }

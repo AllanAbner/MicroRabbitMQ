@@ -1,6 +1,10 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
+using MicroRabbit.Domain.Core.Bus;
 using MicroRabbit.Infra.IoC;
 using MicroRabbit.Transfer.Data.Context;
+using MicroRabbit.Transfer.Domain.Eventhandler;
+using MicroRabbit.Transfer.Domain.Events;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -62,11 +66,19 @@ namespace MicroRabbit.Transfer.Api
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json/", "Transfer Microservices V");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json/", "Transfer Microservices V1");
             });
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            ConfigureEventBus(app);
+        }
+
+        private void ConfigureEventBus(IApplicationBuilder app)
+        {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+            eventBus.Subscribe<TranferCreatedEvent, TransferEventHandler>();
         }
     }
 }
