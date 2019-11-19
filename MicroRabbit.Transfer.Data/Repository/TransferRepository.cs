@@ -17,7 +17,8 @@ namespace MicroRabbit.Transfer.Data.Repository
 
         public Task Add(TransferLog transferLog)
         {
-            return transferDbContext.AddAsync(transferLog);
+            transferDbContext.Add(transferLog);
+            return Task.CompletedTask;
         }
 
         public IEnumerable<TransferLog> GetTransferLogs()
