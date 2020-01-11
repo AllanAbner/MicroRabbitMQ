@@ -17,7 +17,15 @@ namespace MicroRabbit.Transfer.Data.Repository
 
         public Task Add(TransferLog transferLog)
         {
-            transferDbContext.Add(transferLog);
+            try
+            {
+                transferDbContext.AddAsync(transferLog);
+                transferDbContext.SaveChanges();
+            }
+            catch (System.Exception)
+            {
+                ;
+            }
             return Task.CompletedTask;
         }
 
